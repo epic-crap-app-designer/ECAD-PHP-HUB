@@ -1,0 +1,24 @@
+1.
+Make a simple and fast user interface.
+2.
+Use optimized SQL queries.
+3.
+Make it secure.
+4.
+Make extensive documentations.
+
+
+
+
+Functionality:
+User:
+	User Administration
+
+Files:
+	File upload and download
+	Sharing files
+
+Pages:
+	Creating Pages
+	Share Pages
+	Create Menues

@@ -1,0 +1,60 @@
+All sql queries must first resolve the session of the user and then check their permissions before doing actually anything
+Combined Queries:
+Page:
+	getPageAndMenues
+
+
+
+Simple Queries:
+Users:
+	createUser
+	deleteUser
+	changePassword
+	confirmEmailAndActivate
+	changeEmail
+	newSession
+Pages:
+	createPage
+	renamePage
+	editPage
+	addUserToPage
+	removeUserFromPage
+	changePermissionsOfUserInPage
+	deletePage
+	getPermissionsOfUsersInPage
+	canUserViewPage
+	canUserEditPage
+	canUserRenamePage
+	canUserDeletePage
+	canUserAddUser
+Folders:
+	createFolder
+	renameFolder
+	addUserToFolder
+	RemoveUserFromFolder
+	changePermissionsOfUserInFolder
+	deleteFolder
+	getPermissionsOfUsersInFolder
+	canUserView
+	canUserDeleteInFolder
+	canUserDownlaodInFolder
+	canUserUploadInFolder
+	canUserRenameInFolder
+	canUserDeleteFOlder
+	canUserAddUserToFolder
+Group:
+	createGroup
+	changeGroupName
+	getUsersInGroup
+	getGroupOfUser
+Menue:
+	createMenue
+	getMenue
+	changeMenue
+	removeAllMenuesFromPage
+	addMenuesToPage
+	addItemToMenue
+	RemoveItemFromMenue
+	EditItemInMenue
+	
+	

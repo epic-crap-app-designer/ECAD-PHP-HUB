@@ -1,0 +1,15 @@
+TODO List ordered by Importance
+todo:
+	HTML Documentation
+		Interfaces
+		all Possible requests
+		snippets
+	PHP Documentation
+		functions
+		function documentation
+		snippets
+	SQL Documentation
+		SQL queries
+		SQL queries documentation
+	Page Creator Documentation
+done:

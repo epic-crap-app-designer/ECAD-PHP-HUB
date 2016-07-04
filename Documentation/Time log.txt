@@ -1,0 +1,15 @@
+
+0.00.01A - 2016.07.03 21:00
+2 Hours
+	Created Project
+	added Documentation
+		wrote a crued goal list
+		added a crued list of needed SQL queries
+		added a list of all listed SQL queries
+		added items to the todo list
+
+0.00.01A - 2016.07.04 19:50
+1 Hours
+	added Documentation
+		HTML Interfaces
+			defined some parts of the Interface

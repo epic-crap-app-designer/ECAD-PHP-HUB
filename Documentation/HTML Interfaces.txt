@@ -1,0 +1,56 @@
+User Sites:
+/ : login site
+	text: ECAD PHP Version
+	text input: username or email
+	text input: password
+	button: login ?userpanel
+
+?userpanel : user pannel
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	button: private Folder (opens the default folder of the User) ?F=user&path=/
+	button: Folders ?F
+	button: Pages ?P
+	button: user settings ?settings
+
+?logout : logout
+	this page closes your current session and redirects you to the default front page
+
+Folder Sites:
+?F : Folders
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	button: private Folder ?F=user&path=/
+	text: my Folders; button: new Folder ?F FormData=newFolder
+	list of my folders:
+		text: ID:ID; text: name:name; button: edit ?F=id FormData=edit; button: open ?F=id&path=/
+	text: Folders shared with me
+	list of Folders shared with me:
+		text: ID:ID; text: name:name; button: edit ?F=id FormData=edit; button: open ?F=id&path=/
+
+?F=id FormData=edit : edit Folder
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	text: owner:username
+	text: FolderID:ID
+	text: Name:FolderName; button: changeName ?F=id FormData=changeName
+	text: users in Folder ([count of users in Folder]) button: addUsers ?F=id FormData=addUser
+		text: userName; button: edit ?F=id FormData=editUserInShare; button: remove ?F=id FormData=removeUserFromShare
+
+?F=id FormData=changeName : change Folder Name
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	text input: Folder Name (has as default the current Folder Name)
+	button: abort ?F=id FormData=edit; button: OK ?F=id FormData=changeNameSubmit,newFolderName=""
+
+?F=id FormData=addUser
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	text: users to add to Folder
+	multiLineTextInput: user names or user emails
+	checkBox: canView
+	checkBox: canDownload
+	checkBox: canUpload (if activated witout allowance to View, a unique preamble will be added to the Files name)
+	checkBox: canDelete
+	checkBox: canRename
+	checkBox: canDeleteFolder
+	checkBox: canAddUsers
+	button: abort ?F=id; button: OK ?F=id FormData=addUserSubmit
+
+
+

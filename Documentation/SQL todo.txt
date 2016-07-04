@@ -1,0 +1,50 @@
+todo:
+	getPageAndMenues
+	createUser
+	deleteUser
+	changePassword
+	confirmEmailAndActivate
+	changeEmail
+	newSession
+	createPage
+	renamePage
+	editPage
+	addUserToPage
+	removeUserFromPage
+	changePermissionsOfUserInPage
+	deletePage
+	getPermissionsOfUsersInPage
+	canUserViewPage
+	canUserEditPage
+	canUserRenamePage
+	canUserDeletePage
+	canUserAddUser
+	createFolder
+	renameFolder
+	addUserToFolder
+	RemoveUserFromFolder
+	changePermissionsOfUserInFolder
+	deleteFolder
+	getPermissionsOfUsersInFolder
+	canUserView
+	canUserDeleteInFolder
+	canUserDownlaodInFolder
+	canUserUploadInFolder
+	canUserRenameInFolder
+	canUserDeleteFOlder
+	canUserAddUserToFolder
+	createGroup
+	changeGroupName
+	getUsersInGroup
+	getGroupOfUser
+	createMenue
+	getMenue
+	changeMenue
+	removeAllMenuesFromPage
+	addMenuesToPage
+	addItemToMenue
+	RemoveItemFromMenue
+	EditItemInMenue
+
+
+done:
