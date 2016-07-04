@@ -13,3 +13,6 @@
 	added Documentation
 		HTML Interfaces
 			defined some parts of the Interface
+0.00.01B - 2016.07.04 20:10
+	added Documentation
+		readme file
