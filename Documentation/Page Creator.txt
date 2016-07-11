@@ -1,0 +1,33 @@
+Page design
+all divs are identified by Position-id
+     0
+   - - -
+  |1|2|3|
+   - - -
+SL|4|5|6|SR
+   - - -
+  |7|8|9|
+   - - -
+    10
+special positions:
+0 is the position befor everything else and is not included in the html header
+10 is the last position and is also not included in the html header
+SL and SR are optional for side banners
+
+
+selections:
+page name
+main position
+style
+main menue position
+main menue id
+
+
+
+drag and drop for positions:
+menue 1:
+	menues of this page
+menue 2: page items
+	Text
+	Banner
+	

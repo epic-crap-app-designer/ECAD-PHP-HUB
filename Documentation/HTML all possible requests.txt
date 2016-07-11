@@ -1,3 +1,39 @@
+todo:
+
+User Sites:
+/
+?userpanel
+?logout
+?settings
+?settings FormData=submit
+
+Folder management Sites:
+?F
+?F=user&path=/
+?F=id
+?F=id FormData=edit
+?F=id FormData=editSubmit
+?F=id FormData=changeName
+?F=id FormData=changeNameSubmit
+?F=id FormData=addUser
+?F=id FormData=addUserSubmit
+?F=id FormData=editUserInShare
+?F=id FormData=editUserInShareSubmit
+?F=id FormData=removeUserFromShare
+?F=id FormData=removeUserFromShareSubmit
+?F FormData=newFolder
+?F=id FormData=newFolderSubmit
+
+Folder interaction sites:
+?F=id&path=/
+?F=id&path=/ FormData=multiDownload
+?F=id&path=/ FormData=upload
+?F=id&path=/ FormData=rename
+?F=id&path=/ FormData=renameSubmit
+?F=id&path=/ FormData=delete
+?F=id&path=/ FormData=copie
+?F=id&path=/ FormData=move
+
+-------------------------------------------------------------------
 done:
 
-todo:

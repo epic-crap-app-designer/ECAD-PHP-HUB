@@ -39,7 +39,7 @@ Folder Sites:
 	text input: Folder Name (has as default the current Folder Name)
 	button: abort ?F=id FormData=edit; button: OK ?F=id FormData=changeNameSubmit,newFolderName=""
 
-?F=id FormData=addUser
+?F=id FormData=addUser : add user
 	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
 	text: users to add to Folder
 	multiLineTextInput: user names or user emails
@@ -51,6 +51,56 @@ Folder Sites:
 	checkBox: canDeleteFolder
 	checkBox: canAddUsers
 	button: abort ?F=id; button: OK ?F=id FormData=addUserSubmit
+
+?F=id FormData=editUserInShare
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	text: edit user.... userName
+	checkBox: canView
+	checkBox: canDownload
+	checkBox: canUpload (if activated witout allowance to View, a unique preamble will be added to the Files name)
+	checkBox: canDelete
+	checkBox: canRename
+	checkBox: canDeleteFolder
+	checkBox: canAddUsers
+	button: abort ?F=id; button: OK ?F=id FormData=editUserInShareSubmit
+
+?F=id FormData=removeUserFromShare : remove user from share
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	text: really remove user:..... from share: shareID
+	button: abort ?F=id; button: OK ?F=id FormData=removeUserFromShareSubmit
+
+?F FormData=newFolder : new folder
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	text: owner:username
+	text: FolderID:ID
+	textInput: Name:FolderName
+	text: users to add to Folder
+	multiLineTextInput: user names or user emails
+	checkBox: canView
+	checkBox: canDownload
+	checkBox: canUpload (if activated witout allowance to View, a unique preamble will be added to the Files name)
+	checkBox: canDelete
+	checkBox: canRename
+	checkBox: canDeleteFolder
+	checkBox: canAddUsers
+	button: abort ?F; button: OK ?F FormData=newFolderSubmit
+
+?F=id&path=/ : folder browser
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	text: path: id/
+	button: download ?F=id&path=/ FormData=multiDownload
+	button: upload ?F=id&path=/ FormData=upload
+	button: rename ?F=id&path=/ FormData=rename
+	button: delete ?F=id&path=/ FormData=delete
+	button: copie ?F=id&path=/ FormData=copie
+	button: move ?F=id&path=/ FormData=move
+	text: (checkbox) size/folder name(?F=id&path=/name)
+
+?F=id&path=/ FormData=rename : rename file/folder
+	text: rename folder / files
+		text:oldName --> textBox:newName
+	button: abort ?F=id&path=/; button: OK ?F=id&path=/ FormData=renameSubmit
+
 
 
 

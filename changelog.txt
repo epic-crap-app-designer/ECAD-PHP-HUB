@@ -1,4 +1,8 @@
 ECAD PHP HUB by Epic Crap App Designer
+0.00.01c
+added some HTML Interface Documentation
+added Idea for page creator designer interface
+Time log removed
 
 0.00.01B
 added readme file
