@@ -33,7 +33,16 @@ Folder interaction sites:
 ?F=id&path=/ FormData=delete
 ?F=id&path=/ FormData=copie
 ?F=id&path=/ FormData=move
+?F=id&path=/ FormData=copie
+?F=id&path=/ FormData=move
 
+User Administartion:
+?adminpanel
+?adminpanel FormData=newUser
+?adminpanel FormData=editUser
+?adminpanel FormData=editUserSubmit=userName
+?adminpanel FormData=deleteUser=userName
+?adminpanel FormData=deleteUserSubmit=userName
 -------------------------------------------------------------------
 done:
 

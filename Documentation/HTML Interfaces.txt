@@ -1,3 +1,7 @@
+
+
+
+
 User Sites:
 / : login site
 	text: ECAD PHP Version
@@ -10,12 +14,17 @@ User Sites:
 	button: private Folder (opens the default folder of the User) ?F=user&path=/
 	button: Folders ?F
 	button: Pages ?P
+	(only if administrator) button: ?adminpanel
 	button: user settings ?settings
 
 ?logout : logout
 	this page closes your current session and redirects you to the default front page
 
-Folder Sites:
+
+
+
+
+Folder Administration:
 ?F : Folders
 	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
 	button: private Folder ?F=user&path=/
@@ -85,8 +94,14 @@ Folder Sites:
 	checkBox: canAddUsers
 	button: abort ?F; button: OK ?F FormData=newFolderSubmit
 
+
+
+
+
+Folder Sites:
 ?F=id&path=/ : folder browser
 	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	text: serverMessageDiv (message of the last action of the user)
 	text: path: id/
 	button: download ?F=id&path=/ FormData=multiDownload
 	button: upload ?F=id&path=/ FormData=upload
@@ -94,13 +109,83 @@ Folder Sites:
 	button: delete ?F=id&path=/ FormData=delete
 	button: copie ?F=id&path=/ FormData=copie
 	button: move ?F=id&path=/ FormData=move
-	text: (checkbox) size/folder name(?F=id&path=/name)
+	list:
+		text: (checkbox) size/folder name(?F=id&path=/name)
 
 ?F=id&path=/ FormData=rename : rename file/folder
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
 	text: rename folder / files
 		text:oldName --> textBox:newName
 	button: abort ?F=id&path=/; button: OK ?F=id&path=/ FormData=renameSubmit
 
+?F=id&path=/ FormData=copie : copie files/folder
+	?
+
+?F=id&path=/ FormData=move : move files/folder
+	?
 
 
 
+
+
+User Administartion:
+?adminpanel : main user administration site
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	text: you are (system administartor / user administrator)
+	text: users total: #
+	button: create new user ?adminpanel FormData=newUser
+	text: users:
+	list:
+		text: userName
+		button:edit ?adminpanel FormData=editUser=userName
+		button:logout ?adminpanel FormData=logoutUser=userName
+		button:delete ?adminpanel FormData=deleteUser=userName
+		text: email
+	button:download log file
+
+?adminpanel FormData=editUser : edit user
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	text: user ID: id
+	text: edit user: username
+	textBox: email
+	textBox: userpasswor text: (leave blank to keep current password)
+	checkbox: no password
+	text: userFolder: userFolderID
+	text: default user folder: textBox: folderID
+	text: amount of Folders in use: number
+	text: amount of allowed Folders: textBox:number
+	checkBox: allow public folders
+	checkBox: allow custom folder link
+
+	text: amount of pages in use: number
+	text: amount of allowed pages textBox:number
+	checkBox: allow public pages
+	checkBox: allow custom page link
+	ListBox: users the user is allowed to administrate
+	button: abbort ?adminpanel button: ok ?adminpanel FormData=editUserSubmit=userName
+
+?adminpanel FormData=deleteUser=userName : delete user
+	text: really delete user?
+	text user: username
+	button: abbort ?adminpanel button: ok ?adminpanel FormData=deleteUserSubmit=userName
+
+?adminpanel FormData=newUser
+	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
+	
+	listBox: userNames
+	textBox: email
+	textBox: userpasswor text: (leave blank to keep current password)
+	checkbox: no password
+	text: userFolder: userFolderID
+	text: default user folder: textBox: folderID
+	text: amount of Folders in use: number
+	text: amount of allowed Folders: textBox:number
+	checkBox: allow public folders
+	checkBox: allow custom folder link
+
+	text: amount of pages in use: number
+	text: amount of allowed pages textBox:number
+	checkBox: allow public pages
+	checkBox: allow custom page link
+	ListBox: users the user is allowed to administrate
+	button: abbort ?adminpanel button: ok ?adminpanel FormData=newUserSubmit

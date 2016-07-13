@@ -1,0 +1,39 @@
+Request handling:
+
+is logged in?
+ |       |
+yes      no - - - - form request
+ |                    |       |
+ |                   yes      no - - - show login page
+ |                    |       
+ |                 try login
+ |
+ |
+get request type__________________________________________________
+   |        |         |          |      |  |
+?logout ?settings ?settings ?adminpanel ?P ?F
+   |        |         |          |      |  |
+   |        |         |          |      |  |
+   |        |         |          |      |  #------get form data
+   |        |         |          |      |              |
+   |        |         |          |      |        check permissions
+   |        |         |          |      |              |
+   |        |         |          |      |         execute action (generate user message)
+   |        |         |          |      |              |
+   |        |         |          |      |       send site or files
+   |        |         |          |      |
+   |        |         |          |      # - - - -
+   |        |         |          |      
+   |        |         |          |
+   |        |         |          |
+   |        |         |          |
+   |        |         |          |
+   |        |         |          |
+   |        |         |          #------------check if user is admin or has user to administrate
+   |        |         |                                |                          |
+   |        |         |                               yes                         no - - - make request with ?settings (and user message: you have nor users to administrate, please contact your administartor )
+   |        |         |  
+   |        |         |  
+   |        |         |  
+   |        |         |  
+   |        |         |                    

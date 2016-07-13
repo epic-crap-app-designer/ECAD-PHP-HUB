@@ -1,0 +1,5 @@
+user session coockie:
+ECADPHPHUB-UserCoockie: cookie
+
+anonymous session coockie:
+ECADPHPHUB-Session: cookie
