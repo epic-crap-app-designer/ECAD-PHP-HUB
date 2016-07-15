@@ -9,6 +9,8 @@ User Sites:
 	text input: password
 	button: login ?userpanel
 
+/ : default user site
+
 ?userpanel : user pannel
 	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
 	button: private Folder (opens the default folder of the User) ?F=user&path=/

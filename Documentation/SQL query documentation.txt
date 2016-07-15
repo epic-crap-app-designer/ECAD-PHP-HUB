@@ -12,7 +12,7 @@ Users:
 	changePassword
 	confirmEmailAndActivate
 	changeEmail
-	newSession
+	checkPasswordAndNewSession
 Pages:
 	createPage
 	renamePage

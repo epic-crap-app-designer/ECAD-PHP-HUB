@@ -1,5 +1,11 @@
 ECAD PHP HUB by Epic Crap App Designer
 
+0.00.01F
+istaller: added SQL querie to create tables
+
+0.00.01E
+added some code
+
 0.00.01D
 added some code
 added source
