@@ -1,4 +1,6 @@
 ECAD PHP HUB by Epic Crap App Designer
+0.00.02
+installer: created all HTML forms, made php script, completed most of the installer (cant create the administartor user yet)
 
 0.00.01F
 istaller: added SQL querie to create tables

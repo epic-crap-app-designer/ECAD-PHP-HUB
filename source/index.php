@@ -1,26 +1,29 @@
 <?php
     error_reporting(-1);
     //version information
-    $ECADPHPHubVersion = '0.00.01';
+    $ECADPHPHubVersion = '0.00.02A';
     $tabePrefix = "testPrefix80";
     
-    
-    
-
+    //check for installation
+    if(!file_exists('config.php')){
+        //load installer
+        include_once('installer.php');
+        startInstallation();
+        exit();
+        die();
+    }
     
     
     
     //load libraries
-    include_once('installer.php');
     include_once('userHandler.php'); //user management
+    include_once('config.php');
     //include_once('folderHandler.php'); //folder manager
     
-    $mySQLIServer = new mysqli("localhost", "root","","ecadphphubtest");
     if (mysqli_connect_errno()) {
         printf("Connect failed: %s\n", mysqli_connect_error());
         exit();
     }
-    createTables($mySQLIServer, $tabePrefix);
     
     
     
@@ -32,8 +35,9 @@
     
     
     
-    echo getUniqueIdentifier();
-    echo $_POST['username'];
+    
+    //echo getUniqueIdentifier();
+    echo .$_POST['username'];
     
     if($_POST['username']){
         startSession();

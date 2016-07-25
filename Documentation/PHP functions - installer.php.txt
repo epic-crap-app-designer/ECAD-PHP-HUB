@@ -1,0 +1,34 @@
+Installer.php:
+
+createTables($mySQLIServer, $tabePrefix)
+	creates all tables needed for the program to run
+
+createProgramFolders()
+	creates program folder
+
+createConfigFileFromHTMLFormData()
+	creates a config file with the data entered in the web installation form
+	content:
+		$SQLDatabaseAdress
+		$SQLDatabaseUsername
+		$SQLDatabasePassword
+		$SQLTablePrefix
+	
+
+startInstallation()
+	shows the installation start page or depending on the installation progress the another installation form
+
+ECADPHPInstallCycle1($isError1, $isError2, $cantConnectTODatabase)
+	makes a HTML Form to let you enter an SQL Server and all other SQL informations needed
+
+ECADPHPInstallCycle2($noUsername, $noPassword, $noPasswordRepeat, $wrongPasswordRepeat)
+	makes a HTML Form that lets you create an administrator
+
+ECADPHPInstallCycle3()
+	lets you rewiew all information befor installing
+
+deleteInstaller()
+	deletes the file Installer.php
+
+installFromHTMLFormData()
+	connects to the SQL server, starts createTables(),creates program folders and starts createConfigFileFromHTMLFormData()

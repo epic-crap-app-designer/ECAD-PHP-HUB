@@ -1,16 +1,16 @@
 Tables:
 
-User: ID, Name, groupID, Password, email, active, confirmedEmail, personalFolderID, allowedAmountOfFolders, allowedAmountOfPages, AllowedAmountOfMenues, canChageSystemFolder, canChagePassword, administrator
+User: ID, Name, groupID, UPassword, email, active, confirmedEmail, personalFolderID, allowedAmountOfFolders, allowedAmountOfPages, AllowedAmountOfMenues, canChageSystemFolder, canChagePassword, administrator
 
 Sessions: ID, uID, IP, cookie, creationDate, active, lastSeen, unusedTimeout, timeout
 
 Pages: ID, creatorID, creationDate, isPublic, name
 
-PageShares: ID, uID, administrative, canEdit, canRename, canView, canDeletePage, canAddUsers
+PageShares: ID, creatorID, administrative, canEdit, canRename, canView, canDeletePage, canAddUsers
 
-Folders: ID, uID, creationDate, public, name
+Folders: ID, creatorID, creationDate, public, name
 
-FolderShare: ID, uID, date, canView, canDelete, canUpload, canDownload, canRename, canDeleteFolder, canAddUser
+FolderShare: ID, creatorID, creationdate, canView, canDelete, canUpload, canDownload, canRename, canDeleteFolder, canAddUser
 
 Administrators: auID, uID
 
@@ -20,4 +20,4 @@ Menus: ID, Creator, name, type
 
 MenueItems: ID, MenueID, test, type, destinationType, destinationID
 
-Menues in Pages: menueID, pageID, indes, position
+MenuesinPages: menueID, pageID, pageindex, position

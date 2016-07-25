@@ -47,4 +47,5 @@ todo:
 	EditItemInMenue
 
 
-done:
+done:	
+	createTables

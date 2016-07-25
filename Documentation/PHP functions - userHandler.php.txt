@@ -1,0 +1,47 @@
+userHandler.php:
+isSession()
+	checks if client has a user session (does not check if session is correct)
+
+startSession()
+	starts a new session
+
+closeSession()
+	deletes the current session from  client
+
+writeLoginScreen()
+	writes the login screen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

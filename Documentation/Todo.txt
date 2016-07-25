@@ -1,5 +1,8 @@
 TODO List ordered by Importance
 todo:
+	installer.php
+		create administrator user (will be implemented in userHandler.php)
+
 	HTML Documentation
 		Interfaces
 		all Possible requests
