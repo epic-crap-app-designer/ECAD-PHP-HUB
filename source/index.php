@@ -1,8 +1,7 @@
 <?php
     error_reporting(-1);
     //version information
-    $ECADPHPHubVersion = '0.00.02A';
-    $tabePrefix = "testPrefix80";
+    $ECADPHPHubVersion = '0.00.02B';
     
     //check for installation
     if(!file_exists('config.php')){
@@ -37,9 +36,10 @@
     
     
     //echo getUniqueIdentifier();
-    echo .$_POST['username'];
     
-    if($_POST['username']){
+    
+    if(isset($_POST['username'])){
+        echo $_POST['username'].' requests login';
         startSession();
         header("Refresh:0; url=?userpanel");
     }

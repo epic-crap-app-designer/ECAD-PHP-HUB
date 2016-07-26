@@ -32,3 +32,6 @@ deleteInstaller()
 
 installFromHTMLFormData()
 	connects to the SQL server, starts createTables(),creates program folders and starts createConfigFileFromHTMLFormData()
+
+createHtaccessFile()
+	creates an htaccess to prohibits users from directly accessing the data folder

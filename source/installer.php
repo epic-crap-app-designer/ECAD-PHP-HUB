@@ -43,7 +43,7 @@
                 }
                 /* print divider */
                 if ($mySQLIServer->more_results()) {
-                    echo("-----------------\n");
+                    //echo("-----------------\n");
                 }
             } while ($mySQLIServer->next_result());
         }else{
@@ -114,6 +114,9 @@
                     die;
                 }
             }
+            if($_POST['SQLServerDatabase'] == ""){
+                ECADPHPInstallCycle1(false, false, true);
+            }
             ECADPHPInstallCycle2(false,false,false,false);
         }
         else if($_POST['ECADPHPInstallCycle'] == "3"){
@@ -143,9 +146,11 @@
             ECADPHPInstallCycle3();
         }
         else if($_POST['ECADPHPInstallCycle'] == "4"){
+            writeHTMLHeader();
+            echo '</br>starting installation......</br></br>';
             if (installFromHTMLFormData()){
                 //complete
-                writeHTMLHeader();
+                
                 echo 'Installation complete!';
                 echo '</br></br>';
                 
@@ -164,7 +169,6 @@
                 writeHTMLEnd();
             }else{
                 //problem
-                writeHTMLHeader();
                 echo 'there was a problem!';
                 echo '</br>';
                 echo '<a href="">restart installation</a>';
@@ -228,7 +232,7 @@
         
         echo '</br>';
         if($cantConnectTODatabase){
-            echo '<font color="red">The selected database cant be connected to</font></br>';
+            echo '<font color="red">The selected database cant be connected to (or is empty)!</font></br>';
         }
         if(isset($_POST['SQLServerDatabase'])){
             echo '<label>Database: </label><input type="text" name="SQLServerDatabase" value="'.$_POST['SQLServerDatabase'].'"></input></br>';
@@ -329,7 +333,34 @@
 
 
     function installFromHTMLFormData(){
+        $dataFolderName = 'ECADPhpHubData';
+        
+        if($_POST['SQLTablesToUse'] == 'useExisting'){
+            
+        }else if($_POST['SQLTablesToUse'] == 'createNew'){
+            //create new database
+            $mySQLIServer = new mysqli($_POST['SQLServerAdress'], $_POST['SQLServerUsername'],$_POST['SQLServerUserPassword']);
+            
+            
+            if ($mySQLIServer->multi_query('CREATE DATABASE '.mysqli_real_escape_string($mySQLIServer, $_POST['SQLServerDatabase']).' COLLATE utf8_general_ci')) {
+                echo '</br> The Database has been created';
+                flush();
+            }else{
+                //error
+                echo $mySQLIServer->error;
+                echo '</br></br></br></br></br>';
+                
+                return false;
+            }
+            
+            
+            
+        }else{
+            return false;
+        }
+        
         $mySQLIServer = new mysqli($_POST['SQLServerAdress'], $_POST['SQLServerUsername'],$_POST['SQLServerUserPassword'],$_POST['SQLServerDatabase']);
+        
         if (mysqli_connect_errno()) {
             return false;
         }
@@ -338,14 +369,31 @@
         }else{
             createTables($mySQLIServer, $_POST['SQLServerTablePrefix']);
         }
-        createProgramFolders('ECADPhpHubData');
-        echo '</br> Folders created';
-        createConfigFileFromHTMLFormData('ECADPhpHubData');
-        echo '</br> config file created';
+        echo '</br></br>SQL Tables created';
+        flush();
+        
+        createProgramFolders($dataFolderName);
+        echo '</br></br>Folders created';
+        flush();
+        
+        createConfigFileFromHTMLFormData($dataFolderName);
+        echo '</br></br>config file created';
+        flush();
+        
+        reateHtaccessFile();
+        echo '</br></br>htaccess file created (prohibits users from directly accessing the data folder)';
+        flush();
         
         echo '</br></br>';
+        
         return true;
         
+    }
+    function createHtaccessFile(){
+        $htaccess_file = fopen($dataFolderName.'/.htaccess', "w");
+        $htaccess_file_Standard = '<Directory ./>'."\r\n".'Order deny,Allow'."\r\n".'Deny from all'."\r\n".'</Directory>';
+        fwrite($htaccess_file, $htaccess_file_Standard);
+        fclose($htaccess_file);
     }
     
     
