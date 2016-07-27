@@ -1,6 +1,6 @@
 Tables:
 
-User: ID, Name, groupID, UPassword, email, active, confirmedEmail, personalFolderID, allowedAmountOfFolders, allowedAmountOfPages, AllowedAmountOfMenues, canChageSystemFolder, canChagePassword, administrator
+User: ID, username, groupID, UPassword, email, active, confirmedEmail, personalFolderID, allowedAmountOfFolders, allowedAmountOfPages, AllowedAmountOfMenues, canChageSystemFolder, canChagePassword, administrator, deleted
 
 Sessions: ID, uID, IP, cookie, creationDate, active, lastSeen, unusedTimeout, timeout
 

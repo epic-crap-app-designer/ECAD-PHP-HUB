@@ -1,4 +1,7 @@
 ECAD PHP HUB by Epic Crap App Designer
+0.00.02C
+installer: creates an administrator user
+
 0.00.02B
 installer: now creates a htaccess file to prohibit users from acessing the server data
 installer: the option to create a new database has been implemented

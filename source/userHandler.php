@@ -8,6 +8,11 @@
         }
         return false;
     }
+    function makeLogin(){
+        
+        
+        startSession();
+    }
     function startSession(){
         setcookie('ECADPHPHUB-UserCoockie','A');
     }
@@ -27,6 +32,10 @@ Password: <input type="password" name="password"></input><br/>
 </div>
 <?php
     writeHTMLEnd();
+    }
+    
+    function checkPassword($password,$passwordHash){
+        return password_verify($password,$passwordHash);
     }
     
 

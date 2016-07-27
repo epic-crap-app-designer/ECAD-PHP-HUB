@@ -1,7 +1,7 @@
 <?php
     error_reporting(-1);
     //version information
-    $ECADPHPHubVersion = '0.00.02B';
+    $ECADPHPHubVersion = '0.00.02C';
     
     //check for installation
     if(!file_exists('config.php')){

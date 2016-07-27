@@ -3,7 +3,7 @@
     function createTables($mySQLIServer, $tabePrefix){
         //user table
         $mySQLInstallString = '';
-        $mySQLInstallString .= 'create table '.$tabePrefix.'_User (ID VARCHAR(50), Name Text, groupID VARCHAR(50), UPassword VARCHAR(50), email Text, active boolean, confirmedEmail boolean, personalFolderID VARCHAR(50), allowedAmountOfFolders int, allowedAmountOfPages int, AllowedAmountOfMenues int, canChageSystemFolder boolean, canChagePassword boolean, administrator boolean); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_User (ID VARCHAR(50), username Text, groupID VARCHAR(50), UPassword VARCHAR(255), email Text, active boolean, confirmedEmail boolean, personalFolderID VARCHAR(50), allowedAmountOfFolders int, allowedAmountOfPages int, AllowedAmountOfMenues int, canChageSystemFolder boolean, canChagePassword boolean, administrator boolean, deleted boolean); ';
         $mySQLInstallString .= 'create table '.$tabePrefix.'_Sessions (ID VARCHAR(50), creatorID VARCHAR(50), IP VARCHAR(50), cookie VARCHAR(50), creationDate date, active boolean, lastSeen date, unusedTimeout time, timeout time); ';
         $mySQLInstallString .= 'create table '.$tabePrefix.'_Pages (ID VARCHAR(50), creatorID VARCHAR(50), creationDate date, isPublic boolean, name VARCHAR(50)); ';
         $mySQLInstallString .= 'create table '.$tabePrefix.'_PageShares (ID VARCHAR(50), creatorID VARCHAR(50), administrative boolean, canEdit boolean, canRename boolean, canView boolean, canDeletePage boolean, canAddUsers boolean); ';
@@ -66,8 +66,9 @@
         $ecadphpconfigfile = fopen("config.php", "w");
         $ecadphpconfigHead = '<?php'."\r\n".'$datarootpath='."'".__DIR__.$dataFolderName."'".';'."\r\n".'$firstInstallationVersion='."'".$ECADPHPHubVersion."'".';'."\r\n";
         $sqlString = '$mySQLIServer = new mysqli("'.$_POST['SQLServerAdress'].'","'.$_POST['SQLServerUsername'].'","'.$_POST['SQLServerUserPassword'].'","'.$_POST['SQLServerDatabase'].'");'."\r\n";
+        $tabePrefixInstallString = '$tabePrefix="'.$_POST['SQLServerTablePrefix'].'";'."\r\n";
 
-        fwrite($ecadphpconfigfile, $ecadphpconfigHead.$sqlString.'?'.'>');
+        fwrite($ecadphpconfigfile, $ecadphpconfigHead.$sqlString.$tabePrefixInstallString.'?'.'>');
         fclose($ecadphpconfigfile);
 
     }
@@ -336,7 +337,7 @@
         $dataFolderName = 'ECADPhpHubData';
         
         if($_POST['SQLTablesToUse'] == 'useExisting'){
-            
+            //nothing needs to be done
         }else if($_POST['SQLTablesToUse'] == 'createNew'){
             //create new database
             $mySQLIServer = new mysqli($_POST['SQLServerAdress'], $_POST['SQLServerUsername'],$_POST['SQLServerUserPassword']);
@@ -380,22 +381,46 @@
         echo '</br></br>config file created';
         flush();
         
-        reateHtaccessFile();
+        createHtaccessFile($dataFolderName);
         echo '</br></br>htaccess file created (prohibits users from directly accessing the data folder)';
         flush();
         
-        echo '</br></br>';
+        //reconnect to sql server
+        $mySQLIServer = new mysqli($_POST['SQLServerAdress'], $_POST['SQLServerUsername'],$_POST['SQLServerUserPassword'],$_POST['SQLServerDatabase']);
+        createAdminUser($mySQLIServer, $_POST['SQLServerTablePrefix'], $_POST['ECADPHPHUBAdministratorUsername'], $_POST['ECADPHPHUBAdministratorPassword']);
         
+        flush();
+        
+        
+        echo '</br></br>';
+        $mySQLIServer->close();
         return true;
         
     }
-    function createHtaccessFile(){
+    function createHtaccessFile($dataFolderName){
         $htaccess_file = fopen($dataFolderName.'/.htaccess', "w");
         $htaccess_file_Standard = '<Directory ./>'."\r\n".'Order deny,Allow'."\r\n".'Deny from all'."\r\n".'</Directory>';
         fwrite($htaccess_file, $htaccess_file_Standard);
         fclose($htaccess_file);
     }
-    
+    function createAdminUser($mySQLIServer, $tabePrefix, $username, $password){
+        $passwordHash= password_hash($password, PASSWORD_BCRYPT);
+        
+        
+        $querie= 'INSERT INTO '.$tabePrefix.'_User (ID, username, UPassword, active, administrator) VALUES ("U.'.getUniqueIdentifier().'", "'.$username.'", "'.$passwordHash.'", true, true);';
+        echo $querie;
+        
+        if ($mySQLIServer->multi_query($querie)) {
+            echo '</br></br>created admin user: "'.$username.'"';
+            flush();
+        }else{
+            //error
+            echo $mySQLIServer->error;
+            echo '</br></br></br></br></br>';
+            
+            return false;
+        }
+    }
     
     
     

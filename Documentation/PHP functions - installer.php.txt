@@ -35,3 +35,5 @@ installFromHTMLFormData()
 
 createHtaccessFile()
 	creates an htaccess to prohibits users from directly accessing the data folder
+
+createAdminUser()
