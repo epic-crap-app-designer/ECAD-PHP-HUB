@@ -80,7 +80,7 @@
             echo 'Welcome to ECAD PHP Hub '.$ECADPHPHubVersion;
             echo '</br></br>';
             echo 'In a few easy steps we will set up your ECAD PHP HUB Installation';
-            echo '</br>(no changes will be made until the end of the installation menue)';
+            echo '</br>';
             echo '</br></br>';
             echo '<form method="POST" action=""><input name="ECADPHPInstallCycle" value="1" hidden><input type="submit" value="next -->"></form>';
             echo '</div>';
@@ -384,6 +384,7 @@
         createHtaccessFile($dataFolderName);
         echo '</br></br>htaccess file created (prohibits users from directly accessing the data folder)';
         flush();
+        echo '</br></br>';
         
         //reconnect to sql server
         $mySQLIServer = new mysqli($_POST['SQLServerAdress'], $_POST['SQLServerUsername'],$_POST['SQLServerUserPassword'],$_POST['SQLServerDatabase']);
@@ -400,6 +401,11 @@
     function createHtaccessFile($dataFolderName){
         $htaccess_file = fopen($dataFolderName.'/.htaccess', "w");
         $htaccess_file_Standard = '<Directory ./>'."\r\n".'Order deny,Allow'."\r\n".'Deny from all'."\r\n".'</Directory>';
+        fwrite($htaccess_file, $htaccess_file_Standard);
+        fclose($htaccess_file);
+        
+        $htaccess_file = fopen('./.htaccess', "w");
+        $htaccess_file_Standard = '<Files "config.php">'."\r\n".'Order deny,Allow'."\r\n".'Deny from all'."\r\n".'</Files>';
         fwrite($htaccess_file, $htaccess_file_Standard);
         fclose($htaccess_file);
     }

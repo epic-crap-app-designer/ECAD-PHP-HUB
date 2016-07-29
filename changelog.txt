@@ -1,4 +1,8 @@
 ECAD PHP HUB by Epic Crap App Designer
+0.00.02D
+install creator: added a script that includes a zip file into one php file, that extracts itself when it is opend.
+installer: creates an htaccess file to restrict the access to the config.php file.
+
 0.00.02C
 installer: creates an administrator user
 

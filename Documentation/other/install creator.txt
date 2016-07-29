@@ -1,0 +1,1 @@
+The install creator is a small script used to store a zip file into a php file, that is extracted after opening the website
