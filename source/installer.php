@@ -5,6 +5,7 @@
         $mySQLInstallString = '';
         $mySQLInstallString .= 'create table '.$tabePrefix.'_Users (ID VARCHAR(50), username VARCHAR(50), groupID VARCHAR(50), password VARCHAR(255), email VARCHAR(254), active boolean, confirmedEmail boolean, personalFolderID VARCHAR(50), allowedAmountOfFolders int, allowedAmountOfPages int, AllowedAmountOfMenues int, canChageSystemFolder boolean, canChagePassword boolean, administrator boolean, deleted boolean); ';
         $mySQLInstallString .= 'create table '.$tabePrefix.'_Sessions (ID VARCHAR(50), userID VARCHAR(50), IP VARCHAR(45), cookie VARCHAR(50), creationDate datetime, active boolean, lastSeen datetime, unusedTimeout time, timeout time); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_ClosedSessions (ID VARCHAR(50), userID VARCHAR(50), IP VARCHAR(45), cookie VARCHAR(50), creationDate datetime, active boolean, lastSeen datetime, unusedTimeout time, timeout time, dateOfClose datetime); ';
         $mySQLInstallString .= 'create table '.$tabePrefix.'_Pages (ID VARCHAR(50), creatorID VARCHAR(50), creationDate date, isPublic boolean, name VARCHAR(50)); ';
         $mySQLInstallString .= 'create table '.$tabePrefix.'_PageShares (ID VARCHAR(50), creatorID VARCHAR(50), administrative boolean, canEdit boolean, canRename boolean, canView boolean, canDeletePage boolean, canAddUsers boolean); ';
         $mySQLInstallString .= 'create table '.$tabePrefix.'_Folders (ID VARCHAR(50), uID VARCHAR(50), creationDate date, public boolean, name  VARCHAR(50)); ';

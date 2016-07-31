@@ -11,7 +11,7 @@ startSession($userID)
 	starts a new session:
 	creates cookie and safes it on the sql server
 
-closeSession()
+closeSessionOnClient()
 	deletes the current session from  client
 
 writeLoginScreen()
@@ -21,9 +21,15 @@ writeLoginScreen()
 checkPassword($password, $passwordHash)
 	checks if the given password and the password hash is correct
 
+makeLogout()
+	saves the cookie in closedSessions
+	removes the session from server
+	and executes closeSessionOnClient()
 
-
-
+checkSession($array, $cookie)
+	the array must contain   creationDate, active, lastSeen, unusedTimeout, timeout,
+	chechs if session is active and returns true if it is and false if it is not
+	it also starts an logout when the session is nolonger active
 
 
 

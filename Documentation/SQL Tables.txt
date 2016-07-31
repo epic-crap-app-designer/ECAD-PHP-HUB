@@ -4,6 +4,8 @@ Users: ID, username, groupID, password, email, active, confirmedEmail, personalF
 
 Sessions: ID, userID, IP, cookie, creationDate, active, lastSeen, unusedTimeout, timeout
 
+ClosedSessions: ID, userID, IP, cookie, creationDate, active, lastSeen, unusedTimeout, timeout, dateOfClose
+
 Pages: ID, creatorID, creationDate, isPublic, name
 
 PageShares: ID, creatorID, administrative, canEdit, canRename, canView, canDeletePage, canAddUsers

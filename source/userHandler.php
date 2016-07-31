@@ -47,15 +47,16 @@
     function startSession($userID){
         global $mySQLIServer;
         global $tabePrefix;
-        $cookie = 'c'.getUniqueIdentifier();
+        $cookie = 'c.'.getUniqueIdentifier();
         $clientIP = $_SERVER["REMOTE_ADDR"];
         $cookieCreatorQuerie = 'INSERT INTO '.$tabePrefix.'_Sessions (userID, IP, cookie, creationDate, active, lastSeen) VALUES ("'.$userID.'", "'.$clientIP.'", "'.$cookie.'", "'.date("Y-m-d H:i:s").'", true, "'.date("Y-m-d H:i:s").'")';
         
         $result = SQLiQuerieHandler($mySQLIServer, $cookieCreatorQuerie);
         setcookie('ECADPHPHUB-UserCoockie',$cookie);
     }
-    function closeSession(){
-        setcookie('ECADPHPHUB-UserCoockie',"null");
+    function closeSessionOnClient(){
+        unset($_COOKIE['ECADPHPHUB-UserCoockie']);
+        setcookie('ECADPHPHUB-UserCoockie', null, -1, '/');
     }
     function writeLoginScreen($errorText){
         writeHTMLHeader();
@@ -75,6 +76,60 @@ Password: <input type="password" name="password"></input><br/>
     
     function checkPassword($password,$passwordHash){
         return password_verify($password,$passwordHash);
+    }
+    function makeLogout(){
+        global $mySQLIServer;
+        global $tabePrefix;
+        $cookie = $mySQLIServer->real_escape_string($_COOKIE['ECADPHPHUB-UserCoockie']);
+        
+        //copies session to another table
+        $cookieRemoveQuerie = 'INSERT INTO '.$tabePrefix.'_ClosedSessions (ID, userID, IP, cookie, creationDate, active, lastSeen, unusedTimeout, timeout, dateOfClose) SELECT session.ID, session.userID, session.IP, session.cookie, session.creationDate, 0, session.lastSeen, session.unusedTimeout, session.timeout, "'.date("Y-m-d H:i:s").'" FROM '.$tabePrefix.'_Sessions as session where session.cookie ='."'".$cookie."'".'; ';
+        //removes session from sql server
+        $cookieRemoveQuerie .= 'DELETE FROM '.$tabePrefix.'_Sessions where cookie ='."'".$cookie."'";
+
+        $result = SQLiQuerieHandler($mySQLIServer, $cookieRemoveQuerie);
+        
+
+        //removes cookie from client
+        closeSessionOnClient();
+
+        
+        //show login screen
+        writeLoginScreen('your have logged out');
+    }
+    
+    function checkSession($array, $cookie){
+
+        //check if there are results (checks if there is a session with this cookie that is connected to a user)
+        if (count($array) > 0){
+
+            //check if session has absolut timeout
+            if(isset($array[0]["timeout"])){
+                if ((getdate() - strtotime($array[0]["creationDate"])) >= strtotime($array[0]["timeout"])){
+                    //session has expired  because user was too long not active
+                    makeLogout();
+                    return false;
+                }
+                
+            }
+
+            //check if unusedTimeout was set
+            if(isset($array[0]["unusedTimeout"])){
+               if ((getdate() - strtotime($array[0]["lastSeen"])) >= strtotime($array[0]["unusedTimeout"])){
+               //session has expired  because user was too long not active
+               makeLogout();
+               return false;
+               }
+               
+            }
+  
+        }else{
+            closeSessionOnClient();
+            writeLoginScreen('your session has expired');
+            return false;
+        }
+
+        return true;
     }
     
 

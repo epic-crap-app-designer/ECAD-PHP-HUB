@@ -1,7 +1,7 @@
 <?php
     error_reporting(-1);
     //version information
-    $ECADPHPHubVersion = '0.00.02F';
+    $ECADPHPHubVersion = '0.00.02G';
     
     //check for installation
     if(!file_exists('config.php')){
@@ -53,6 +53,10 @@
         else if(isset($_GET["adminpanel"])){
             //administrator panel request
                 
+        }
+        else if(isset($_GET["logout"])){
+            //perform logout
+            makeLogout();
         }
         else{
             //no known selection
@@ -120,6 +124,7 @@
             } while ($mySQLIServer->more_results() && $mySQLIServer->next_result());
         }else{
             //error
+            echo 'an internal server error has ocured</br></br></br>';
             echo $mySQLIServer->error;
             echo '</br></br></br></br></br>';
             exit();
@@ -131,11 +136,16 @@
         global $mySQLIServer;
         global $tabePrefix;
         $cookie = $mySQLIServer->real_escape_string($_COOKIE['ECADPHPHUB-UserCoockie']);
-        $getUserInformationbySession =  'Select sessions.userID, users.username, users.personalFolderID, users.administrator from '.$tabePrefix.'_Sessions sessions left join '.$tabePrefix.'_Users users on sessions.userID = users.ID where cookie = '."'".$cookie."'";
+
+        $getUserInformationbySession =  'Select session.creationDate, session.active, session.lastSeen, session.unusedTimeout, session.timeout, session.userID, user.username, user.personalFolderID, user.administrator from '.$tabePrefix.'_Sessions session left join '.$tabePrefix.'_Users user on session.userID = user.ID where cookie = '."'".$cookie."'".';';
+        
+        //update last seen
+        $getUserInformationbySession .= getLastSessionUpdateQuerie($cookie);
         
         $result = SQLiQuerieHandler($mySQLIServer, $getUserInformationbySession);
+
         //checks if there are enougth results
-        if(count($result[0]) > 0){
+        if(checkSession($result[0], $cookie)){
             writeHTMLHeader();
             writeHeader($result[0][0]["username"]);
             echo '<a href="?F=user&path=/">myFolder</a>';
@@ -146,11 +156,14 @@
                 echo '</br></br><a href="?adminpanel">administratorPanel</a>';
             }
             writeHTMLEnd();
-        }else{
-            //session not found
-            writeLoginScreen('your session is no longer active');
         }
     }
+    function getLastSessionUpdateQuerie($cookie){
+        global $tabePrefix;
+        $querie = 'UPDATE '.$tabePrefix.'_Sessions SET lastSeen="'.date("Y-m-d H:i:s").'" where cookie = '."'".$cookie."'".';';
+        return $querie;
+    }
+
     
     
     

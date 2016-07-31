@@ -51,6 +51,9 @@ Menue:
 	EditItemInMenue
 ----------------------------------------------------------------
 done:
+User:
+	getUserInformationbySession
+	LastSessionUpdateQuerie
 installer:
 	createTables
 	createAdminUser

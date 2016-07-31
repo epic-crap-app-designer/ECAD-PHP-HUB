@@ -15,7 +15,10 @@ Users:
 	endSession
 	endAllSessions
 	getUserInformationbySession
-	$getUserInformationbySession =  'Select sessions.userID, users.username, users.personalFolderID, users.administrator from '.$tabePrefix.'_Sessions sessions left join '.$tabePrefix.'_Users users on sessions.userID = users.ID where cookie = '."'".$cookie."'";
+        $getUserInformationbySession =  'Select session.creationDate, session.active, session.lastSeen, session.unusedTimeout, session.timeout, session.userID, user.username, user.personalFolderID, user.administrator from '.$tabePrefix.'_Sessions session left join '.$tabePrefix.'_Users user on session.userID = user.ID where cookie = '."'".$cookie."'".';';
+
+	LastSessionUpdateQuerie
+	$querie = 'UPDATE '.$tabePrefix.'_Sessions SET lastSeen="'.date("Y-m-d H:i:s").'" where cookie = '."'".$cookie."'".';';
 Pages:
 	createPage
 	renamePage

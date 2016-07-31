@@ -1,4 +1,11 @@
 ECAD PHP HUB by Epic Crap App Designer
+0.00.02G
+added a table closedSessions
+implemented logout systemm
+closed sessions are moved to the table closed sessions
+implemented last seen time updater
+implemented a system to check if a user session has timeoutet
+
 0.00.02F
 implemented the userpanel
 
