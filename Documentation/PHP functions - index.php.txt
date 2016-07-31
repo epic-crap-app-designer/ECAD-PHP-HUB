@@ -18,6 +18,7 @@ writeHTMLEnd()
 SQLiQuerieHandler($mySQLIServer, $querie)
 	executes an multiple sql queries and returns result as array (ordered by querie > row > colum)
 
-
+userPannelHandler()
+	checks user and shows user pannel
 
 

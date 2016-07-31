@@ -20,11 +20,10 @@
         
         $getPasswordHashFromUserQuerie =  'Select password, ID from '.$tabePrefix.'_Users where username = '."'".$username."'";
         
-        
         $result = SQLiQuerieHandler($mySQLIServer, $getPasswordHashFromUserQuerie);
         
-        //checks ifthere are enougth results
-        if(count($result) > 0){
+        //checks if there are enougth results
+        if(count($result[0]) > 0){
             //check password
             if(checkPassword($password, $result[0][0]["password"])){
                 //password confirmed
@@ -36,8 +35,11 @@
                 header("Refresh:0; url=?userpanel");
             }else{
                 //password not correct
-                echo "password not correct";
+                writeLoginScreen('password incorrect or user doesn\'t exist');
             }
+        }else{
+            //user not found
+            writeLoginScreen('password incorrect or user doesn\'t exist');
         }
 
         
@@ -55,11 +57,12 @@
     function closeSession(){
         setcookie('ECADPHPHUB-UserCoockie',"null");
     }
-    function writeLoginScreen(){
+    function writeLoginScreen($errorText){
         writeHTMLHeader();
         ?>
 <div style="text-align:center; margin= 0 auto;">
 <p>ECAD PHP HUB</p>
+<p><font color="red"><?php echo $errorText; ?> </font> </p>
 <form method="POST" action="">
 Username: <input type="text" name="username"></input><br/>
 Password: <input type="password" name="password"></input><br/>

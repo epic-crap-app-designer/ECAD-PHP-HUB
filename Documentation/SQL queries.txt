@@ -1,0 +1,76 @@
+All sql queries must first resolve the session of the user and then check their permissions before doing actually anything
+Combined Queries:
+Users:
+	createUser
+	deleteUser
+	changePassword
+	confirmEmailAndActivate
+	changeEmail
+	getPasswordHash
+	$getPasswordHashFromUserQuerie =  'Select password, ID from '.$tabePrefix.'_Users where username = '."'".$username."'";
+
+	newSession
+	$cookieCreatorQuerie = 'INSERT INTO '.$tabePrefix.'_Sessions (userID, IP, cookie, creationDate, active, lastSeen) VALUES ("'.$userID.'", "'.$clientIP.'", "'.$cookie.'", "'.date("Y-m-d H:i:s").'", true, "'.date("Y-m-d H:i:s").'")';
+	
+	endSession
+	endAllSessions
+	getUserInformationbySession
+	$getUserInformationbySession =  'Select sessions.userID, users.username, users.personalFolderID, users.administrator from '.$tabePrefix.'_Sessions sessions left join '.$tabePrefix.'_Users users on sessions.userID = users.ID where cookie = '."'".$cookie."'";
+Pages:
+	createPage
+	renamePage
+	editPage
+	addUserToPage
+	removeUserFromPage
+	changePermissionsOfUserInPage
+	deletePage
+	getPermissionsOfUsersInPage
+	canUserViewPage
+	canUserEditPage
+	canUserRenamePage
+	canUserDeletePage
+	canUserAddUser
+Folders:
+	createFolder
+	renameFolder
+	addUserToFolder
+	RemoveUserFromFolder
+	changePermissionsOfUserInFolder
+	deleteFolder
+	getPermissionsOfUsersInFolder
+	canUserView
+	canUserDeleteInFolder
+	canUserDownlaodInFolder
+	canUserUploadInFolder
+	canUserRenameInFolder
+	canUserDeleteFOlder
+	canUserAddUserToFolder
+Group:
+	createGroup
+	changeGroupName
+	getUsersInGroup
+	getGroupOfUser
+Menue:
+	createMenue
+	getMenue
+	changeMenue
+	removeAllMenuesFromPage
+	addMenuesToPage
+	addItemToMenue
+	RemoveItemFromMenue
+	EditItemInMenue
+Installer:
+	createTables
+	$mySQLInstallString = '';
+	$mySQLInstallString .= 'create table '.$tabePrefix.'_Users (ID VARCHAR(50), username VARCHAR(50), groupID VARCHAR(50), password VARCHAR(255), email VARCHAR(254), active boolean, confirmedEmail boolean, personalFolderID VARCHAR(50), allowedAmountOfFolders int, allowedAmountOfPages int, AllowedAmountOfMenues int, canChageSystemFolder boolean, canChagePassword boolean, administrator boolean, deleted boolean); ';
+	$mySQLInstallString .= 'create table '.$tabePrefix.'_Sessions (ID VARCHAR(50), userID VARCHAR(50), IP VARCHAR(45), cookie VARCHAR(50), creationDate datetime, active boolean, lastSeen datetime, unusedTimeout time, timeout time); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_Pages (ID VARCHAR(50), creatorID VARCHAR(50), creationDate date, isPublic boolean, name VARCHAR(50)); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_PageShares (ID VARCHAR(50), creatorID VARCHAR(50), administrative boolean, canEdit boolean, canRename boolean, canView boolean, canDeletePage boolean, canAddUsers boolean); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_Folders (ID VARCHAR(50), uID VARCHAR(50), creationDate date, public boolean, name  VARCHAR(50)); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_FolderShare (ID VARCHAR(50), creatorID VARCHAR(50), creationdate date, canView boolean, canDelete boolean, canUpload boolean, canDownload boolean, canRename boolean, canDeleteFolder boolean, canAddUser boolean); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_Administrators (auID VARCHAR(50), creatorID VARCHAR(50), creationdate date); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_Group (ID VARCHAR(50), name VARCHAR(50), frontPageType VARCHAR(50), frontPageID VARCHAR(50)); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_Menus (ID VARCHAR(50), Creator VARCHAR(50), name VARCHAR(50), itemtype VARCHAR(50)); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_MenueItems (ID VARCHAR(50), MenueID VARCHAR(50), test VARCHAR(50), type VARCHAR(50), destinationType VARCHAR(50), destinationID VARCHAR(50)); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_MenuesinPages (menueID VARCHAR(50), pageID VARCHAR(50), pageindex VARCHAR(50), position VARCHAR(50)); ';
+	

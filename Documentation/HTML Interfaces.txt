@@ -5,9 +5,10 @@
 User Sites:
 / : login site
 	text: ECAD PHP Version
-	text input: username or email
+	text: error message
+	text input: username
 	text input: password
-	button: login ?userpanel
+	button: normalLoginAtempt
 
 / : default user site
 
@@ -26,7 +27,7 @@ User Sites:
 
 
 
-Folder Administration:
+Folder management Sites:
 ?F : Folders
 	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
 	button: private Folder ?F=user&path=/
@@ -100,7 +101,7 @@ Folder Administration:
 
 
 
-Folder Sites:
+Folder interaction sites:
 ?F=id&path=/ : folder browser
 	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
 	text: serverMessageDiv (message of the last action of the user)

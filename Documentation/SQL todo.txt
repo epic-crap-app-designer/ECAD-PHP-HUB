@@ -1,11 +1,12 @@
-todo:
-	getPageAndMenues
+Users:
 	createUser
 	deleteUser
 	changePassword
 	confirmEmailAndActivate
 	changeEmail
-	newSession
+	endSession
+	endAllSessions
+Pages:
 	createPage
 	renamePage
 	editPage
@@ -19,6 +20,7 @@ todo:
 	canUserRenamePage
 	canUserDeletePage
 	canUserAddUser
+Folders:
 	createFolder
 	renameFolder
 	addUserToFolder
@@ -33,10 +35,12 @@ todo:
 	canUserRenameInFolder
 	canUserDeleteFOlder
 	canUserAddUserToFolder
+Group:
 	createGroup
 	changeGroupName
 	getUsersInGroup
 	getGroupOfUser
+Menue:
 	createMenue
 	getMenue
 	changeMenue
@@ -45,7 +49,11 @@ todo:
 	addItemToMenue
 	RemoveItemFromMenue
 	EditItemInMenue
-
-
-done:	
+----------------------------------------------------------------
+done:
+installer:
 	createTables
+	createAdminUser
+	getPasswordHash
+	newSession
+	getUserInformationbySession

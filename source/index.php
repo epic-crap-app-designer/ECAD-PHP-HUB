@@ -1,7 +1,7 @@
 <?php
     error_reporting(-1);
     //version information
-    $ECADPHPHubVersion = '0.00.02E';
+    $ECADPHPHubVersion = '0.00.02F';
     
     //check for installation
     if(!file_exists('config.php')){
@@ -26,21 +26,46 @@
         echo 'SQL server unreachable';
         exit();
     }
+    
     //checks if client has a session open (does not check if session is correct!)
     if(isSession()){
-        writeHTMLHeader();
-        writeHeader("testUser");
-        writeHTMLEnd();
-        
-        
-        
+        if(isset($_GET["userpanel"])){
+            //userpannel request
+            userPannelHandler();
+        }
+        else if(isset($_GET["settings"])){
+            //settings request
+            
+        }
+        else if(isset($_GET["F"])){
+            //folder request
+            //check if private user folder
+            if($_GET["F"] == 'user'){
+                //private user folde
+            }else{
+                
+            }
+        }
+        else if(isset($_GET["P"])){
+            //page request
+            
+        }
+        else if(isset($_GET["adminpanel"])){
+            //administrator panel request
+                
+        }
+        else{
+            //no known selection
+            //redirect to userpanel
+            header("Refresh:0; url=?userpanel");
+        }
         
     }else{
         //login handling
         if(isset($_POST['normalLoginAtempt'])){
             makeLogin();
         }else{
-            writeLoginScreen();
+            writeLoginScreen('');
         }
     }
 
@@ -101,6 +126,36 @@
         }
         return $completeReseult;
     }
+    
+    function userPannelHandler(){
+        global $mySQLIServer;
+        global $tabePrefix;
+        $cookie = $mySQLIServer->real_escape_string($_COOKIE['ECADPHPHUB-UserCoockie']);
+        $getUserInformationbySession =  'Select sessions.userID, users.username, users.personalFolderID, users.administrator from '.$tabePrefix.'_Sessions sessions left join '.$tabePrefix.'_Users users on sessions.userID = users.ID where cookie = '."'".$cookie."'";
+        
+        $result = SQLiQuerieHandler($mySQLIServer, $getUserInformationbySession);
+        //checks if there are enougth results
+        if(count($result[0]) > 0){
+            writeHTMLHeader();
+            writeHeader($result[0][0]["username"]);
+            echo '<a href="?F=user&path=/">myFolder</a>';
+            echo '</br></br><a href="?F">all Folders</a>';
+            echo '</br></br><a href="?P">all Pages</a>';
+            echo '</br></br><a href="?settings">settings</a>';
+            if($result[0][0]["administrator"] == 1){
+                echo '</br></br><a href="?adminpanel">administratorPanel</a>';
+            }
+            writeHTMLEnd();
+        }else{
+            //session not found
+            writeLoginScreen('your session is no longer active');
+        }
+    }
+    
+    
+    
+    
+    
     
     
     

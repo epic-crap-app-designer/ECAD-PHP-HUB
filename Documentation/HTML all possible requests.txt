@@ -2,7 +2,6 @@ todo:
 
 User Sites:
 /
-?userpanel
 ?logout
 ?settings
 ?settings FormData=submit
@@ -48,6 +47,7 @@ User Administartion:
 done:
 User Sites:
 / FormData=normalLoginAtempt
+?userpanel
 
 Folder management Sites:
 
