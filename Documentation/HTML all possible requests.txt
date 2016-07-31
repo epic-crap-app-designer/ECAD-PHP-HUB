@@ -43,6 +43,14 @@ User Administartion:
 ?adminpanel FormData=editUserSubmit=userName
 ?adminpanel FormData=deleteUser=userName
 ?adminpanel FormData=deleteUserSubmit=userName
--------------------------------------------------------------------
-done:
 
+----------------------------------------------------------------------
+done:
+User Sites:
+/ FormData=normalLoginAtempt
+
+Folder management Sites:
+
+Folder interaction sites:
+
+User Administartion:

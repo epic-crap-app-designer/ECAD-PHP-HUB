@@ -3,10 +3,13 @@ isSession()
 	checks if client has a user session (does not check if session is correct)
 
 makeLogin()
-	
+	gets password hash from sql server
+	checks password with checkPassword()
+	and starts a nes seesion with startSession()
 
-startSession()
-	starts a new session
+startSession($userID)
+	starts a new session:
+	creates cookie and safes it on the sql server
 
 closeSession()
 	deletes the current session from  client
@@ -15,7 +18,7 @@ writeLoginScreen()
 	writes the login screen
 
 
-checkPassword()
+checkPassword($password, $passwordHash)
 	checks if the given password and the password hash is correct
 
 

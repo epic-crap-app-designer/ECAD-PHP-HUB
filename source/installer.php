@@ -3,8 +3,8 @@
     function createTables($mySQLIServer, $tabePrefix){
         //user table
         $mySQLInstallString = '';
-        $mySQLInstallString .= 'create table '.$tabePrefix.'_User (ID VARCHAR(50), username Text, groupID VARCHAR(50), UPassword VARCHAR(255), email Text, active boolean, confirmedEmail boolean, personalFolderID VARCHAR(50), allowedAmountOfFolders int, allowedAmountOfPages int, AllowedAmountOfMenues int, canChageSystemFolder boolean, canChagePassword boolean, administrator boolean, deleted boolean); ';
-        $mySQLInstallString .= 'create table '.$tabePrefix.'_Sessions (ID VARCHAR(50), creatorID VARCHAR(50), IP VARCHAR(50), cookie VARCHAR(50), creationDate date, active boolean, lastSeen date, unusedTimeout time, timeout time); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_Users (ID VARCHAR(50), username VARCHAR(50), groupID VARCHAR(50), password VARCHAR(255), email VARCHAR(254), active boolean, confirmedEmail boolean, personalFolderID VARCHAR(50), allowedAmountOfFolders int, allowedAmountOfPages int, AllowedAmountOfMenues int, canChageSystemFolder boolean, canChagePassword boolean, administrator boolean, deleted boolean); ';
+        $mySQLInstallString .= 'create table '.$tabePrefix.'_Sessions (ID VARCHAR(50), userID VARCHAR(50), IP VARCHAR(45), cookie VARCHAR(50), creationDate datetime, active boolean, lastSeen datetime, unusedTimeout time, timeout time); ';
         $mySQLInstallString .= 'create table '.$tabePrefix.'_Pages (ID VARCHAR(50), creatorID VARCHAR(50), creationDate date, isPublic boolean, name VARCHAR(50)); ';
         $mySQLInstallString .= 'create table '.$tabePrefix.'_PageShares (ID VARCHAR(50), creatorID VARCHAR(50), administrative boolean, canEdit boolean, canRename boolean, canView boolean, canDeletePage boolean, canAddUsers boolean); ';
         $mySQLInstallString .= 'create table '.$tabePrefix.'_Folders (ID VARCHAR(50), uID VARCHAR(50), creationDate date, public boolean, name  VARCHAR(50)); ';
@@ -16,20 +16,6 @@
         $mySQLInstallString .= 'create table '.$tabePrefix.'_MenuesinPages (menueID VARCHAR(50), pageID VARCHAR(50), pageindex VARCHAR(50), position VARCHAR(50)); ';
         
         
-        //raw
-        /*
-        create table _User (ID VARCHAR(50), Name Text, groupID VARCHAR(50), UPassword VARCHAR(50), email Text, active boolean, confirmedEmail boolean, personalFolderID VARCHAR(50), allowedAmountOfFolders int, allowedAmountOfPages int, AllowedAmountOfMenues int, canChageSystemFolder boolean, canChagePassword boolean, administrator boolean);
-        create table _Sessions (ID VARCHAR(50), uID VARCHAR(50), IP VARCHAR(50), cookie VARCHAR(50), creationDate date, active boolean, lastSeen date, unusedTimeout time, timeout time);
-        create table _Pages (ID VARCHAR(50), creatorID VARCHAR(50), creationDate date, isPublic boolean, name VARCHAR(50));
-        create table _PageShares (ID VARCHAR(50), uID VARCHAR(50), administrative boolean, canEdit boolean, canRename boolean, canView boolean, canDeletePage boolean, canAddUsers boolean);
-        create table _Folders (ID VARCHAR(50), uID VARCHAR(50), creationDate date, public boolean, name  VARCHAR(50));
-        create table _FolderShare (ID VARCHAR(50), uID VARCHAR(50), creationdate date, canView boolean, canDelete boolean, canUpload boolean, canDownload boolean, canRename boolean, canDeleteFolder boolean, canAddUser boolean);
-        create table _Administrators (auID VARCHAR(50), uID VARCHAR(50), creationdate date);
-        create table _Group (ID VARCHAR(50), name VARCHAR(50), frontPageType VARCHAR(50), frontPageID VARCHAR(50));
-        create table _Menus (ID VARCHAR(50), Creator VARCHAR(50), name VARCHAR(50), itemtype VARCHAR(50));
-        create table _MenueItems (ID VARCHAR(50), MenueID VARCHAR(50), test VARCHAR(50), type VARCHAR(50), destinationType VARCHAR(50), destinationID VARCHAR(50));
-        create table _MenuesinPages (menueID VARCHAR(50), pageID VARCHAR(50), pageindex VARCHAR(50), position VARCHAR(50));
-         */
         
 
         if ($mySQLIServer->multi_query($mySQLInstallString)) {
@@ -413,7 +399,7 @@
         $passwordHash= password_hash($password, PASSWORD_BCRYPT);
         
         
-        $querie= 'INSERT INTO '.$tabePrefix.'_User (ID, username, UPassword, active, administrator) VALUES ("U.'.getUniqueIdentifier().'", "'.$username.'", "'.$passwordHash.'", true, true);';
+        $querie= 'INSERT INTO '.$tabePrefix.'_Users (ID, username, password, active, administrator) VALUES ("U.'.getUniqueIdentifier().'", "'.$username.'", "'.$passwordHash.'", true, true);';
         echo $querie;
         
         if ($mySQLIServer->multi_query($querie)) {

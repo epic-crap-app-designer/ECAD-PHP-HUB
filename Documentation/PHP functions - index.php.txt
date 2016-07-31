@@ -15,6 +15,8 @@ writeHTMLHeader()
 writeHTMLEnd()
 	ends the HTML section
 
+SQLiQuerieHandler($mySQLIServer, $querie)
+	executes an multiple sql queries and returns result as array (ordered by querie > row > colum)
 
 
 

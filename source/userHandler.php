@@ -3,18 +3,54 @@
     
     //check if client has a user session
     function isSession(){
-        if($_COOKIE['ECADPHPHUB-UserCoockie']){
+        if(isset($_COOKIE['ECADPHPHUB-UserCoockie'])){
             return true;
         }
         return false;
     }
     function makeLogin(){
+        global $mySQLIServer;
+        global $tabePrefix;
+        
+        //echo $_POST['username'].' requests login';
+
+        $username = $mySQLIServer->real_escape_string($_POST['username']);
+        $password = $_POST['password'];
         
         
-        startSession();
+        $getPasswordHashFromUserQuerie =  'Select password, ID from '.$tabePrefix.'_Users where username = '."'".$username."'";
+        
+        
+        $result = SQLiQuerieHandler($mySQLIServer, $getPasswordHashFromUserQuerie);
+        
+        //checks ifthere are enougth results
+        if(count($result) > 0){
+            //check password
+            if(checkPassword($password, $result[0][0]["password"])){
+                //password confirmed
+                echo "welcome";
+                //create session
+                startSession($result[0][0]["ID"]);
+                //reload page
+                echo "login complete, welcome.</br></br></br> redirecting to userpanel";
+                header("Refresh:0; url=?userpanel");
+            }else{
+                //password not correct
+                echo "password not correct";
+            }
+        }
+
+        
     }
-    function startSession(){
-        setcookie('ECADPHPHUB-UserCoockie','A');
+    function startSession($userID){
+        global $mySQLIServer;
+        global $tabePrefix;
+        $cookie = 'c'.getUniqueIdentifier();
+        $clientIP = $_SERVER["REMOTE_ADDR"];
+        $cookieCreatorQuerie = 'INSERT INTO '.$tabePrefix.'_Sessions (userID, IP, cookie, creationDate, active, lastSeen) VALUES ("'.$userID.'", "'.$clientIP.'", "'.$cookie.'", "'.date("Y-m-d H:i:s").'", true, "'.date("Y-m-d H:i:s").'")';
+        
+        $result = SQLiQuerieHandler($mySQLIServer, $cookieCreatorQuerie);
+        setcookie('ECADPHPHUB-UserCoockie',$cookie);
     }
     function closeSession(){
         setcookie('ECADPHPHUB-UserCoockie',"null");
@@ -27,7 +63,7 @@
 <form method="POST" action="">
 Username: <input type="text" name="username"></input><br/>
 Password: <input type="password" name="password"></input><br/>
-<input type="submit" name="submit" value="login"></input>
+<input type="submit" name="normalLoginAtempt" value="login"></input>
 </form>
 </div>
 <?php
