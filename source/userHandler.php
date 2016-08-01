@@ -77,7 +77,7 @@ Password: <input type="password" name="password"></input><br/>
     function checkPassword($password,$passwordHash){
         return password_verify($password,$passwordHash);
     }
-    function makeLogout(){
+    function makeLogout($message){
         global $mySQLIServer;
         global $tabePrefix;
         $cookie = $mySQLIServer->real_escape_string($_COOKIE['ECADPHPHUB-UserCoockie']);
@@ -95,7 +95,7 @@ Password: <input type="password" name="password"></input><br/>
 
         
         //show login screen
-        writeLoginScreen('your have logged out');
+        writeLoginScreen($message);
     }
     
     function checkSession($array, $cookie){
@@ -105,19 +105,25 @@ Password: <input type="password" name="password"></input><br/>
 
             //check if session has absolut timeout
             if(isset($array[0]["timeout"])){
-                if ((getdate() - strtotime($array[0]["creationDate"])) >= strtotime($array[0]["timeout"])){
+                /*
+                var_dump($array[0]["creationDate"]);
+                var_dump(strtotime($array[0]["creationDate"]));
+                var_dump(((new DateTime('now'))->getTimestamp() - strtotime($array[0]["creationDate"])));
+                var_dump($array[0]["timeout"]);
+                */
+                if (((new DateTime('now'))->getTimestamp() - strtotime($array[0]["creationDate"])) >= $array[0]["timeout"]){
                     //session has expired  because user was too long not active
-                    makeLogout();
+                    makeLogout('your session has expired (absolute session timeout)');
                     return false;
                 }
-                
+
             }
 
             //check if unusedTimeout was set
             if(isset($array[0]["unusedTimeout"])){
-               if ((getdate() - strtotime($array[0]["lastSeen"])) >= strtotime($array[0]["unusedTimeout"])){
+               if (((new DateTime('now'))->getTimestamp() - strtotime($array[0]["lastSeen"])) >= $array[0]["unusedTimeout"]){
                //session has expired  because user was too long not active
-               makeLogout();
+               makeLogout('your session has expired (you haave been non active for too long)');
                return false;
                }
                

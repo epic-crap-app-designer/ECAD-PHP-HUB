@@ -1,7 +1,7 @@
 <?php
     error_reporting(-1);
     //version information
-    $ECADPHPHubVersion = '0.00.02G';
+    $ECADPHPHubVersion = '0.00.02H';
     
     //check for installation
     if(!file_exists('config.php')){
@@ -56,7 +56,7 @@
         }
         else if(isset($_GET["logout"])){
             //perform logout
-            makeLogout();
+            makeLogout('your have logged out');
         }
         else{
             //no known selection
