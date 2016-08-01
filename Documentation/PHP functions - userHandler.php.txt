@@ -26,13 +26,17 @@ makeLogout()
 	removes the session from server
 	and executes closeSessionOnClient()
 
-checkSession($array, $cookie)
-	the array must contain   creationDate, active, lastSeen, unusedTimeout, timeout,
-	chechs if session is active and returns true if it is and false if it is not
-	it also starts an logout when the session is nolonger active
+userPannelHandler()
+	executed querie: getUserInformationbySession
+	addedToQuerie: getLastSessionUpdateQuerie($cookie)
+	checks session with checkSession($array, $cookie)
+	and shows user pannel
 
+userAdminisrtationPanelHandler()
+	handels a administrator pannel request
 
-
+showUserAdministratorPanel()
+	shows the user administrator panel
 
 
 

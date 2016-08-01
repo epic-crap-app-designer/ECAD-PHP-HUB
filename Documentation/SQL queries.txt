@@ -1,6 +1,9 @@
 All sql queries must first resolve the session of the user and then check their permissions before doing actually anything
 Combined Queries:
 Users:
+	BaseSelect(gets user session from cookie and makes sql variables: @userID, @userIsAdministrator)
+        $getBaseUserInformationbySession = 'Select session.creationDate, session.active, session.lastSeen, session.unusedTimeout, session.timeout, @userID := session.userID as "userID", user.username, @userIsAdministrator :=user.administrator as "administrator" from '.$tabePrefix.'_Sessions session left join '.$tabePrefix.'_Users user on session.userID = user.ID where cookie = '."'".$cookie."'".';';
+
 	createUser
 	deleteUser
 	changePassword
@@ -19,6 +22,9 @@ Users:
 
 	LastSessionUpdateQuerie
 	$querie = 'UPDATE '.$tabePrefix.'_Sessions SET lastSeen="'.date("Y-m-d H:i:s").'" where cookie = '."'".$cookie."'".';';
+
+	getAllUsersAndInformations
+	$mainQuerie .= ' Select * From ad_Users where @userIsAdministrator = 1; ';
 Pages:
 	createPage
 	renamePage

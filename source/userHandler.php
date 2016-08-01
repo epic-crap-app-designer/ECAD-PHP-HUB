@@ -98,44 +98,73 @@ Password: <input type="password" name="password"></input><br/>
         writeLoginScreen($message);
     }
     
-    function checkSession($array, $cookie){
-
-        //check if there are results (checks if there is a session with this cookie that is connected to a user)
-        if (count($array) > 0){
-
-            //check if session has absolut timeout
-            if(isset($array[0]["timeout"])){
-                /*
-                var_dump($array[0]["creationDate"]);
-                var_dump(strtotime($array[0]["creationDate"]));
-                var_dump(((new DateTime('now'))->getTimestamp() - strtotime($array[0]["creationDate"])));
-                var_dump($array[0]["timeout"]);
-                */
-                if (((new DateTime('now'))->getTimestamp() - strtotime($array[0]["creationDate"])) >= $array[0]["timeout"]){
-                    //session has expired  because user was too long not active
-                    makeLogout('your session has expired (absolute session timeout)');
-                    return false;
-                }
-
+    function userPannelHandler(){
+        global $mySQLIServer;
+        global $tabePrefix;
+        $cookie = $mySQLIServer->real_escape_string($_COOKIE['ECADPHPHUB-UserCoockie']);
+        
+        $getUserInformationbySession =  'Select session.creationDate, session.active, session.lastSeen, session.unusedTimeout, session.timeout, session.userID, user.username, user.personalFolderID, user.administrator from '.$tabePrefix.'_Sessions session left join '.$tabePrefix.'_Users user on session.userID = user.ID where cookie = '."'".$cookie."'".';';
+        
+        //update last seen
+        $getUserInformationbySession .= getLastSessionUpdateQuerie($cookie);
+        
+        $result = SQLiQuerieHandler($mySQLIServer, $getUserInformationbySession);
+        
+        //checks if there are enougth results
+        if(checkSession($result[0], $cookie)){
+            writeHTMLHeader();
+            writeHeader($result[0][0]["username"]);
+            echo '<a href="?F=user&path=/">myFolder</a>';
+            echo '</br></br><a href="?F">all Folders</a>';
+            echo '</br></br><a href="?P">all Pages</a>';
+            echo '</br></br><a href="?settings">settings</a>';
+            if($result[0][0]["administrator"] == 1){
+                echo '</br></br><a href="?adminpanel">administratorPanel</a>';
             }
-
-            //check if unusedTimeout was set
-            if(isset($array[0]["unusedTimeout"])){
-               if (((new DateTime('now'))->getTimestamp() - strtotime($array[0]["lastSeen"])) >= $array[0]["unusedTimeout"]){
-               //session has expired  because user was too long not active
-               makeLogout('your session has expired (you haave been non active for too long)');
-               return false;
-               }
-               
-            }
-  
-        }else{
-            closeSessionOnClient();
-            writeLoginScreen('your session has expired');
-            return false;
+            writeHTMLEnd();
         }
+    }
+    
+    function userAdminisrtationPanelHandler(){
+        //check for form data
+        
+        //-------
+        //show administrator panel
+        showUserAdministratorPanel;
+        
 
-        return true;
+    }
+    function showUserAdministratorPanel(){
+        global $mySQLIServer;
+        global $tabePrefix;
+        $cookie = $mySQLIServer->real_escape_string($_COOKIE['ECADPHPHUB-UserCoockie']);
+        
+        //get user information
+        $mainQuerie = getUserBaseInformatioQuerie($cookie);
+        //get additional information for request when criterias are met
+        $mainQuerie .= ' Select * From ad_Users where @userIsAdministrator = 1; ';
+        //update last seen
+        $mainQuerie .= getLastSessionUpdateQuerie($cookie);
+        
+        $result = SQLiQuerieHandler($mySQLIServer, $mainQuerie);
+        
+        //checks if session is active and if user is administrator
+        if(checkSession($result[0], $cookie) && $result[0][0]["administrator"] = "1"){
+            writeHTMLHeader();
+            writeHeader($result[0][0]["username"]);
+            echo '';
+            echo 'users total: '.count($result[1]);
+            echo '</br><form method="POST" action=""><input type="submit" name="newUser" value="new user"></input></form>';
+            echo '</br>Users:';
+            //make menue for each user
+            for ($i = 0; $i < count($result[1]); $i++) {
+                echo '<form method="POST" action="">';
+                echo ''.$result[1][$i]["username"].' <input type="text" name="userID" value="'.$result[1][$i]["ID"].'" hidden></input> <input type="submit" name="editUser" value="edit"></input><input type="submit" name="logoutUser" value="logout"></input><input type="submit" name="deleteUser" value="delete"></input> (ID:'.$result[1][$i]["ID"].')';
+                echo '</form>';
+            }
+            
+            writeHTMLEnd();
+        }
     }
     
 

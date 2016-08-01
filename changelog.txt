@@ -1,4 +1,8 @@
 ECAD PHP HUB by Epic Crap App Designer
+0.00.02I
+edited the readme file
+added the administrator panel
+
 0.00.02H
 changed time format of session timeout to seconds in int
 fixed session timeout detection

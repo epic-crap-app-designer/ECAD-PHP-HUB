@@ -1,7 +1,7 @@
 <?php
     error_reporting(-1);
     //version information
-    $ECADPHPHubVersion = '0.00.02H';
+    $ECADPHPHubVersion = '0.00.02I';
     
     //check for installation
     if(!file_exists('config.php')){
@@ -52,7 +52,10 @@
         }
         else if(isset($_GET["adminpanel"])){
             //administrator panel request
-                
+            userAdminisrtationPanelHandler();
+            
+
+            
         }
         else if(isset($_GET["logout"])){
             //perform logout
@@ -132,39 +135,51 @@
         return $completeReseult;
     }
     
-    function userPannelHandler(){
-        global $mySQLIServer;
-        global $tabePrefix;
-        $cookie = $mySQLIServer->real_escape_string($_COOKIE['ECADPHPHUB-UserCoockie']);
 
-        $getUserInformationbySession =  'Select session.creationDate, session.active, session.lastSeen, session.unusedTimeout, session.timeout, session.userID, user.username, user.personalFolderID, user.administrator from '.$tabePrefix.'_Sessions session left join '.$tabePrefix.'_Users user on session.userID = user.ID where cookie = '."'".$cookie."'".';';
-        
-        //update last seen
-        $getUserInformationbySession .= getLastSessionUpdateQuerie($cookie);
-        
-        $result = SQLiQuerieHandler($mySQLIServer, $getUserInformationbySession);
-
-        //checks if there are enougth results
-        if(checkSession($result[0], $cookie)){
-            writeHTMLHeader();
-            writeHeader($result[0][0]["username"]);
-            echo '<a href="?F=user&path=/">myFolder</a>';
-            echo '</br></br><a href="?F">all Folders</a>';
-            echo '</br></br><a href="?P">all Pages</a>';
-            echo '</br></br><a href="?settings">settings</a>';
-            if($result[0][0]["administrator"] == 1){
-                echo '</br></br><a href="?adminpanel">administratorPanel</a>';
-            }
-            writeHTMLEnd();
-        }
-    }
     function getLastSessionUpdateQuerie($cookie){
         global $tabePrefix;
         $querie = 'UPDATE '.$tabePrefix.'_Sessions SET lastSeen="'.date("Y-m-d H:i:s").'" where cookie = '."'".$cookie."'".';';
         return $querie;
     }
 
-    
+    function checkSession($array, $cookie){
+        
+        //check if there are results (checks if there is a session with this cookie that is connected to a user)
+        if (count($array) > 0){
+            
+            //check if session has absolut timeout
+            if(isset($array[0]["timeout"])){
+                if (((new DateTime('now'))->getTimestamp() - strtotime($array[0]["creationDate"])) >= $array[0]["timeout"]){
+                    //session has expired  because user was too long not active
+                    makeLogout('your session has expired (absolute session timeout)');
+                    return false;
+                }
+                
+            }
+            
+            //check if unusedTimeout was set
+            if(isset($array[0]["unusedTimeout"])){
+                if (((new DateTime('now'))->getTimestamp() - strtotime($array[0]["lastSeen"])) >= $array[0]["unusedTimeout"]){
+                    //session has expired  because user was too long not active
+                    makeLogout('your session has expired (you haave been non active for too long)');
+                    return false;
+                }
+                
+            }
+            
+        }else{
+            closeSessionOnClient();
+            writeLoginScreen('your session has expired');
+            return false;
+        }
+        
+        return true;
+    }
+    function getUserBaseInformatioQuerie($cookie){
+        global $tabePrefix;
+        $getBaseUserInformationbySession = 'Select session.creationDate, session.active, session.lastSeen, session.unusedTimeout, session.timeout, @userID := session.userID as "userID", user.username, @userIsAdministrator :=user.administrator as "administrator" from '.$tabePrefix.'_Sessions session left join '.$tabePrefix.'_Users user on session.userID = user.ID where cookie = '."'".$cookie."'".';';
+        return $getBaseUserInformationbySession;
+    }
     
     
     

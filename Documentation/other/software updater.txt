@@ -1,0 +1,5 @@
+get github information about releases:
+https://api.github.com/repos/epic-crap-app-designer/ECAD-PHP-HUB/releases
+
+get github information about latest release:
+https://api.github.com/repos/epic-crap-app-designer/ECAD-PHP-HUB/releases/latest

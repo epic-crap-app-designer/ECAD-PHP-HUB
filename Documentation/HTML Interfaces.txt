@@ -136,13 +136,13 @@ User Administartion:
 	text: ECAD PHP Version; button: user pannel ?userpanel; button: logout ?logout
 	text: you are (system administartor / user administrator)
 	text: users total: #
-	button: create new user ?adminpanel FormData=newUser
+	button: create new user ?adminpanel FormData: newUser
 	text: users:
 	list:
 		text: userName
-		button:edit ?adminpanel FormData=editUser=userName
-		button:logout ?adminpanel FormData=logoutUser=userName
-		button:delete ?adminpanel FormData=deleteUser=userName
+		button:edit ?adminpanel FormData: editUser userID=userID
+		button:logout ?adminpanel FormData: logoutUser userID=userID
+		button:delete ?adminpanel FormData: deleteUser userID=userID
 		text: email
 	button:download log file
 
