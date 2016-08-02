@@ -110,6 +110,7 @@
     
     
     function SQLiQuerieHandler($mySQLIServer, $querie){
+        //executes multiple queries seperated by semicolumn and fetches the result into an array
         $completeReseult = array();
         
         
@@ -137,6 +138,7 @@
     
 
     function getLastSessionUpdateQuerie($cookie){
+        //pus together a querie string that will upldate the last seen parameter of a session by its cookie
         global $tabePrefix;
         $querie = 'UPDATE '.$tabePrefix.'_Sessions SET lastSeen="'.date("Y-m-d H:i:s").'" where cookie = '."'".$cookie."'".';';
         return $querie;

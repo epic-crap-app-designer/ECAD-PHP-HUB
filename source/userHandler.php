@@ -45,6 +45,7 @@
         
     }
     function startSession($userID){
+        //creates a new session, puts together and executes a querie to insert it to the sql server, and saves the cookie on the cloent
         global $mySQLIServer;
         global $tabePrefix;
         $cookie = 'c.'.getUniqueIdentifier();
@@ -128,11 +129,25 @@ Password: <input type="password" name="password"></input><br/>
     function userAdminisrtationPanelHandler(){
         //check for form data
         
-        //-------
-        //show administrator panel
-        showUserAdministratorPanel;
+        if(isset($_POST["newUser"])){
+            $showUserAdministratonNewUserPanel();
+        }else if(isset($_POST["newUserSubmit"])){
+            
+        }else if(isset($_POST["editUser"])){
+            
+        }else if(isset($_POST["editUserSubmit"])){
+            
+        }else if(isset($_POST["deleteUser"])){
+            
+        }else if(isset($_POST["deleteUserSubmit"])){
+            
+        }else if(isset($_POST["logoutUser"])){
+            
+        }else{
+            //show administrator panel if no specific request was made
+            showUserAdministratorPanel;
+        }
         
-
     }
     function showUserAdministratorPanel(){
         global $mySQLIServer;
@@ -166,7 +181,53 @@ Password: <input type="password" name="password"></input><br/>
             writeHTMLEnd();
         }
     }
+    function $showUserAdministratonNewUserPanel(){
+        global $mySQLIServer;
+        global $tabePrefix;
+        $cookie = $mySQLIServer->real_escape_string($_COOKIE['ECADPHPHUB-UserCoockie']);
+        
+        //get user information
+        $mainQuerie = getUserBaseInformatioQuerie($cookie);
+
+        //update last seen
+        $mainQuerie .= getLastSessionUpdateQuerie($cookie);
+        
+        $result = SQLiQuerieHandler($mySQLIServer, $mainQuerie);
+        
+        //checks if session is active and if user is administrator
+        if(checkSession($result[0], $cookie) && $result[0][0]["administrator"] = "1"){
+            writeHTMLHeader();
+            writeHeader($result[0][0]["username"]);
+            
+            echo '</br>';
+            echo 'Username: <input type="text" name="username"></input><br/>';
+            echo 'Password: <input type="password" name="password"></input><br/>';
+            echo '<input type="checkbox" name="no_password" value="true"></input> no password </br>';
+            echo 'userFolder ID:   (will be created with the user)</br>';
+            echo 'default user folder:  (will be added after the user has been created)</br>';
+            
+            echo 'folders in use by user: (0)</br>';
+            echo 'amount of allowed Folders: <input type="text" name="amount_of_allowed_Folders"></input><br/>';
+            echo '<input type="checkbox" name="allow_public_folders" value="true"></input> allow public folders</br>';
+            echo '<input type="checkbox" name="allow_custom_folder_link" value="true"></input> allow custom folder link</br>';
+            
+            echo ' amount of pages in use: (0)</br>';
+            echo 'amount of allowed pages: <input type="text" name="amount_of_allowed_pages"></input><br/>';
+            echo '<input type="checkbox" name="allow_public_pages" value="true"></input> allow public pages</br>';
+            echo '<input type="checkbox" name="allow_custom_page_link" value="true"></input> allow custom page link</br>';
+            echo 'users the user is allowed to administrate:';
+            echo '<textarea rows="10" cols="30" name="usersInShare"></textarea></br>';
+            echo '<input type="submit" name="abort" value="abort"> ';
+            echo '<input type="submit" name="newUserSubmit" value="create user">';
+            writeHTMLEnd();
+        }
+
+    }
     
 
+    
+    
+    
+    
 
 ?>

@@ -1,4 +1,6 @@
 ECAD PHP HUB by Epic Crap App Designer
+0.00.02J
+added create new user form to administrator panel
 0.00.02I
 edited the readme file
 added the administrator panel

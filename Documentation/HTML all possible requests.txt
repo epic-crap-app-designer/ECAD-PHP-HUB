@@ -36,11 +36,11 @@ Folder interaction sites:
 ?F=id&path=/ FormData=move
 
 User Administartion:
-?adminpanel FormData=newUser
-?adminpanel FormData=editUser
-?adminpanel FormData=editUserSubmit=userName
-?adminpanel FormData=deleteUser=userName
-?adminpanel FormData=deleteUserSubmit=userName
+?adminpanel FormData=newUserSubmit
+?adminpanel FormData=editUser userID=userID
+?adminpanel FormData=editUserSubmit userID=userID
+?adminpanel FormData=deleteUser userID=userID
+?adminpanel FormData=deleteUserSubmit userID=userID
 
 ----------------------------------------------------------------------
 done:
@@ -54,3 +54,4 @@ Folder interaction sites:
 
 User Administartion:
 ?adminpanel
+?adminpanel FormData=newUser

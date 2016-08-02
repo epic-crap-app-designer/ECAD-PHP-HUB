@@ -38,8 +38,8 @@ userAdminisrtationPanelHandler()
 showUserAdministratorPanel()
 	shows the user administrator panel
 
-
-
+showUserAdministratonNewUserPanel()
+	shows the create new user form
 
 
 

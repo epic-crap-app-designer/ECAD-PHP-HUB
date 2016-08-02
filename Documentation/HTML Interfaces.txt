@@ -154,12 +154,10 @@ User Administartion:
 	textBox: userpasswor text: (leave blank to keep current password)
 	checkbox: no password
 	text: userFolder: userFolderID
-	text: default user folder: textBox: folderID
-	text: amount of Folders in use: number
-	text: amount of allowed Folders: textBox:number
+	text: amount of Folders in use: number (how many folders the user has created)
+	textBox: amount of allowed Folders: textBox:number (how many folders a user can accept)(10 recomended)
 	checkBox: allow public folders
 	checkBox: allow custom folder link
-
 	text: amount of pages in use: number
 	text: amount of allowed pages textBox:number
 	checkBox: allow public pages
@@ -177,15 +175,13 @@ User Administartion:
 	
 	listBox: userNames
 	textBox: email
-	textBox: userpasswor text: (leave blank to keep current password)
+	textBox: userpasswor text: 
 	checkbox: no password
-	text: userFolder: userFolderID
-	text: default user folder: textBox: folderID
-	text: amount of Folders in use: number
-	text: amount of allowed Folders: textBox:number
+	text: userFolder: userFolderID (will be created together with the user)
+	text: amount of Folders in use: number (how many folders the user has created)
+	textBox: amount of allowed Folders: textBox:number (how many folders a user can accept)(10 recomended)
 	checkBox: allow public folders
 	checkBox: allow custom folder link
-
 	text: amount of pages in use: number
 	text: amount of allowed pages textBox:number
 	checkBox: allow public pages
