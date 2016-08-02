@@ -36,7 +36,7 @@ Folder interaction sites:
 ?F=id&path=/ FormData=move
 
 User Administartion:
-?adminpanel FormData=newUserSubmit
+?adminpanel FormData=newUserSubmit (partly)
 ?adminpanel FormData=editUser userID=userID
 ?adminpanel FormData=editUserSubmit userID=userID
 ?adminpanel FormData=deleteUser userID=userID

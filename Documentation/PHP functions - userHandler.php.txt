@@ -41,7 +41,7 @@ showUserAdministratorPanel()
 showUserAdministratonNewUserPanel()
 	shows the create new user form
 
-
+administratonNewUserSubmit() (not fully implemented)
 
 
 

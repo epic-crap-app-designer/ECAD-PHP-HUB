@@ -130,9 +130,9 @@ Password: <input type="password" name="password"></input><br/>
         //check for form data
         
         if(isset($_POST["newUser"])){
-            $showUserAdministratonNewUserPanel();
+            showUserAdministratonNewUserPanel();
         }else if(isset($_POST["newUserSubmit"])){
-            
+            administratonNewUserSubmit();
         }else if(isset($_POST["editUser"])){
             
         }else if(isset($_POST["editUserSubmit"])){
@@ -145,11 +145,11 @@ Password: <input type="password" name="password"></input><br/>
             
         }else{
             //show administrator panel if no specific request was made
-            showUserAdministratorPanel;
+            showUserAdministratorPanel('');
         }
         
     }
-    function showUserAdministratorPanel(){
+    function showUserAdministratorPanel($message){
         global $mySQLIServer;
         global $tabePrefix;
         $cookie = $mySQLIServer->real_escape_string($_COOKIE['ECADPHPHUB-UserCoockie']);
@@ -167,7 +167,7 @@ Password: <input type="password" name="password"></input><br/>
         if(checkSession($result[0], $cookie) && $result[0][0]["administrator"] = "1"){
             writeHTMLHeader();
             writeHeader($result[0][0]["username"]);
-            echo '';
+            echo '<p><font color="red">'.$message.'</font> </p>';
             echo 'users total: '.count($result[1]);
             echo '</br><form method="POST" action=""><input type="submit" name="newUser" value="new user"></input></form>';
             echo '</br>Users:';
@@ -181,7 +181,7 @@ Password: <input type="password" name="password"></input><br/>
             writeHTMLEnd();
         }
     }
-    function $showUserAdministratonNewUserPanel(){
+    function showUserAdministratonNewUserPanel(){
         global $mySQLIServer;
         global $tabePrefix;
         $cookie = $mySQLIServer->real_escape_string($_COOKIE['ECADPHPHUB-UserCoockie']);
@@ -202,6 +202,7 @@ Password: <input type="password" name="password"></input><br/>
             echo '</br>';
             echo 'Username: <input type="text" name="username"></input><br/>';
             echo 'Password: <input type="password" name="password"></input><br/>';
+            echo 'Email: <input type="text" name="email"></input><br/>';
             echo '<input type="checkbox" name="no_password" value="true"></input> no password </br>';
             echo 'userFolder ID:   (will be created with the user)</br>';
             echo 'default user folder:  (will be added after the user has been created)</br>';
@@ -216,12 +217,71 @@ Password: <input type="password" name="password"></input><br/>
             echo '<input type="checkbox" name="allow_public_pages" value="true"></input> allow public pages</br>';
             echo '<input type="checkbox" name="allow_custom_page_link" value="true"></input> allow custom page link</br>';
             echo 'users the user is allowed to administrate:';
-            echo '<textarea rows="10" cols="30" name="usersInShare"></textarea></br>';
+            echo '<textarea rows="10" cols="30" name="users_the_user_is_allowed_to_administrate"></textarea></br>';
+            
             echo '<input type="submit" name="abort" value="abort"> ';
             echo '<input type="submit" name="newUserSubmit" value="create user">';
             writeHTMLEnd();
         }
 
+    }
+    function administratonNewUserSubmit(){
+        global $mySQLIServer;
+        global $tabePrefix;
+        $cookie = $mySQLIServer->real_escape_string($_COOKIE['ECADPHPHUB-UserCoockie']);
+        
+        
+        //get submitted form data as escaped string for the mySQL connection
+        $username = $mySQLIServer->real_escape_string($_POST["username"]);
+        $password = $_POST["password"];
+        $email = $mySQLIServer->real_escape_string($_POST["email"]);
+        
+        $no_password = false;
+        if(isset($_POST["no_password"])) $no_password = true;
+        
+        $amount_of_allowed_Folders = $mySQLIServer->real_escape_string($_POST["$amount_of_allowed_Folders"]);
+        
+        $allow_public_folders = false;
+        if(isset($_POST["allow_public_folders"])) $allow_public_folders = true;
+        
+        $allow_custom_folder_link = false;
+        if(isset($_POST["allow_custom_folder_link"])) $allow_custom_folder_link = true;
+        
+        
+        $amount_of_allowed_pages = $mySQLIServer->real_escape_string($_POST["amount_of_allowed_pages"]);
+        
+        $allow_public_pages = false;
+        if(isset($_POST["allow_public_pages"])) $allow_public_pages = true;
+        
+        $allow_custom_page_link = false;
+        if(isset($_POST["allow_custom_page_link"])) $allow_custom_page_link = true;
+        
+        $users_the_user_is_allowed_to_administrate = $mySQLIServer->real_escape_string($_POST["users_the_user_is_allowed_to_administrate"]);
+        //-----------------------------------------------------------------------------------------------
+        
+        $passwordHash = $passwordHash= password_hash($password, PASSWORD_BCRYPT);
+        //get user information
+        $mainQuerie = getUserBaseInformatioQuerie($cookie);
+        
+        
+        if($no_password) $password = '';
+        
+        //add the create new user querie
+        $mainQuerie .=' INSERT INTO '.$tabePrefix.'_Users (ID, username, password, email, active, administrator, allowedAmountOfFolders, allowedAmountOfPages) VALUES ("U.'.getUniqueIdentifier().'", "'.$username.'", "'.$passwordHash.'", "'.$email.'", true, false, "'.$amount_of_allowed_Folders.'", "'.$amount_of_allowed_pages.'" ) where @userIsAdministrator = 1; ';
+        
+        //update last seen
+        $mainQuerie .= getLastSessionUpdateQuerie($cookie);
+        
+        $result = SQLiQuerieHandler($mySQLIServer, $mainQuerie);
+        
+        //checks if session is active and if user is administrator
+        if(checkSession($result[0], $cookie) && $result[0][0]["administrator"] = "1"){
+            showUserAdministratorPanel('User created');
+        }else{
+            showUserAdministratorPanel('!ERROR! you dont have permission to create a new user, you are not an administrator');
+        }
+
+        exit();
     }
     
 

@@ -1,7 +1,7 @@
 <?php
     error_reporting(-1);
     //version information
-    $ECADPHPHubVersion = '0.00.02I';
+    $ECADPHPHubVersion = '0.00.02K';
     
     //check for installation
     if(!file_exists('config.php')){
@@ -53,9 +53,6 @@
         else if(isset($_GET["adminpanel"])){
             //administrator panel request
             userAdminisrtationPanelHandler();
-            
-
-            
         }
         else if(isset($_GET["logout"])){
             //perform logout

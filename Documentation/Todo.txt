@@ -1,6 +1,7 @@
 TODO List ordered by Importance
 todo:
 	Test the create new user Form
+	finish administratonNewUserSubmit() and test
 
 Documentations:
 	HTML Documentation

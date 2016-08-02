@@ -4,7 +4,9 @@ Users:
 	BaseSelect(gets user session from cookie and makes sql variables: @userID, @userIsAdministrator)
         $getBaseUserInformationbySession = 'Select session.creationDate, session.active, session.lastSeen, session.unusedTimeout, session.timeout, @userID := session.userID as "userID", user.username, @userIsAdministrator :=user.administrator as "administrator" from '.$tabePrefix.'_Sessions session left join '.$tabePrefix.'_Users user on session.userID = user.ID where cookie = '."'".$cookie."'".';';
 
-	createUser
+	createUser (not finished)
+	$mainQuerie .=' INSERT INTO '.$tabePrefix.'_Users (ID, username, password, email, active, administrator, allowedAmountOfFolders, allowedAmountOfPages) VALUES ("U.'.getUniqueIdentifier().'", "'.$username.'", "'.$passwordHash.'", "'.$email.'", true, false, "'.$amount_of_allowed_Folders.'", "'.$amount_of_allowed_pages.'" ) where @userIsAdministrator = 1; ';
+	
 	deleteUser
 	changePassword
 	confirmEmailAndActivate
